@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSphere Prototype - Force & Motion</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 EduSphere Prototype</h1>
+            <div class="subtitle">Force & Laws of Motion Explorer - Class 9</div>
+        </header>
+        
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Virtual Labs Section -->
+                <div class="section">
+                    <h2>🔬 Virtual Laboratory</h2>
+                    
+                    <div class="experiment">
+                        <h3>🚂 Cart & Fan Experiment (1st Law)</h3>
+                        <canvas id="cartCanvas" width="500" height="150"></canvas>
+                        <div class="controls">
+                            <div class="slider-container">
+                                <label>Fan Strength:</label>
+                                <input type="range" id="fanStrength" min="0" max="10" value="5">
+                                <span id="fanValue">5</span>
+                            </div>
+                            <button onclick="startCartExperiment()">Start Experiment</button>
+                            <button onclick="resetCart()">Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div class="experiment">
+                        <h3>⚖️ Spring Balance Experiment (2nd Law)</h3>
+                        <canvas id="springCanvas" width="300" height="250"></canvas>
+                        <div class="controls">
+                            <div class="slider-container">
+                                <label>Mass (kg):</label>
+                                <input type="range" id="massSlider" min="1" max="10" value="2">
+                                <span id="massValue">2 kg</span>
+                            </div>
+                            <div class="slider-container">
+                                <label>Applied Force (N):</label>
+                                <input type="range" id="forceSlider" min="1" max="20" value="10">
+                                <span id="forceValue">10 N</span>
+                            </div>
+                            <button onclick="calculateAcceleration()">Calculate Acceleration</button>
+                        </div>
+                        <div id="accelerationResult" style="margin-top: 10px; padding: 10px; background: #e8f5e8; border-radius: 5px;"></div>
+                    </div>
+                </div>
+                
+                <!-- Coding Lab Section -->
+                <div class="coding-lab">
+                    <h2>🎮 Coding Playground</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h3>Drag Code Blocks:</h3>
+                            <div style="background: white; padding: 15px; border-radius: 8px;">
+                                <div class="block" draggable="true" data-code="createBall()">⚽ Create Ball</div>
+                                <div class="block" draggable="true" data-code="applyForce(10)">⚡ Apply Force</div>
+                                <div class="block" draggable="true" data-code="addFriction(0.1)">🌀 Add Friction</div>
+                                <div class="block" draggable="true" data-code="bounceWalls()">🎾 Bounce Walls</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Your Code Sequence:</h3>
+                            <div id="codeSequence">
+                                <p style="color: #666; text-align: center; margin-top: 40px;">Drag code blocks here...</p>
+                            </div>
+                            <button onclick="runPhysicsSimulation()" style="width: 100%;">▶ Run Simulation</button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h3>Physics Simulation:</h3>
+                        <canvas id="physicsCanvas" width="500" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- AI Chat Section -->
+                <div class="section">
+                    <h2>🤖 AI Learning Assistant</h2>
+                    <div class="chat-container" id="chatMessages">
+                        <div class="message ai-message">
+                            Welcome to Force & Motion Explorer! Ask me anything about forces, try the experiments, and share your innovative ideas!
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <input type="text" id="userInput" placeholder="Ask about forces, motion, or experiments...">
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+                
+                <!-- Innovation Section -->
+                <div class="innovation-panel">
+                    <h2>💡 Your Innovation Ideas</h2>
+                    <select id="ideaType">
+                        <option value="application">📱 Application Idea</option>
+                        <option value="question">❓ Research Question</option>
+                        <option value="connection">🔗 Interesting Connection</option>
+                        <option value="problem">🎯 Open Problem</option>
+                    </select>
+                    <textarea id="innovationInput" placeholder="Share your creative application, question, or connection..." rows="3"></textarea>
+                    <button onclick="submitInnovation()" style="width: 100%;">Submit Idea (+ Points!)</button>
+                </div>
+                
+                <!-- Scoreboard Section -->
+                <div class="scoreboard">
+                    <h2>🏆 Your Innovation Score</h2>
+                    <div class="points-display">Points: <span id="totalPoints">0</span></div>
+                    <div>Badges:</div>
+                    <div class="badges-display" id="badgesDisplay">
+                        <span style="color: #666;">None yet - start earning!</span>
+                    </div>
+                    <h3 style="margin-top: 15px;">Recent Innovations:</h3>
+                    <div id="innovationHistory" style="max-height: 200px; overflow-y: auto;"></div>
+                </div>
+                
+                <!-- Community Section -->
+                <div class="community-showcase">
+                    <h2>🌟 Student Innovation Hub</h2>
+                    
+                    <h3>📤 Share Your Creation!</h3>
+                    <select id="projectType" style="width: 100%;">
+                        <option value="app">📱 Mobile App</option>
+                        <option value="device">⚙️ Smart Device</option>
+                        <option value="art">🎨 Creative Art</option>
+                        <option value="code">💻 Program</option>
+                        <option value="research">🔬 Research</option>
+                    </select>
+                    <input type="text" id="projectTitle" placeholder="Project Title">
+                    <textarea id="projectDescription" placeholder="Describe your amazing creation..." rows="2"></textarea>
+                    <button onclick="submitProject()" style="width: 100%;">Publish Project</button>
+                    
+                    <h3 style="margin-top: 20px;">🔥 Recent Student Projects</h3>
+                    <div id="projectsContainer">
+                        <div class="project-card">
+                            <h4>📱 Smart Water Reminder App</h4>
+                            <p><strong>By:</strong> Priya, Class 9</p>
+                            <p>An app that reminds students to drink water using IoT sensor</p>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9em; color: #666;">
+                                <span>👍 15 likes</span>
+                                <span>💬 3 comments</span>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <h4>⚙️ Solar-Powered Study Lamp</h4>
+                            <p><strong>By:</strong> Rahul, Class 10</p>
+                            <p>3D printed lamp with solar panel for power cuts</p>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9em; color: #666;">
+                                <span>👍 22 likes</span>
+                                <span>💬 7 comments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script>
+        // Global variables
+        let chatMessages = [];
+        let innovations = [];
+        let totalPoints = 0;
+        let studentProjects = [
+            {
+                id: 1,
+                title: "Smart Water Reminder App",
+                creator: "Priya, Class 9",
+                type: "app",
+                description: "An app that reminds students to drink water using IoT sensor",
+                likes: 15,
+                comments: 3
+            },
+            {
+                id: 2,
+                title: "Solar-Powered Study Lamp",
+                creator: "Rahul, Class 10",
+                type: "device",
+                description: "3D printed lamp with solar panel for power cuts",
+                likes: 22,
+                comments: 7
+            }
+        ];
+
+        // Canvas contexts
+        const cartCtx = document.getElementById('cartCanvas').getContext('2d');
+        const springCtx = document.getElementById('springCanvas').getContext('2d');
+        const physicsCtx = document.getElementById('physicsCanvas').getContext('2d');
+
+        // Initialize sliders
+        document.getElementById('fanStrength').addEventListener('input', function() {
+            document.getElementById('fanValue').textContent = this.value;
+        });
+
+        document.getElementById('massSlider').addEventListener('input', function() {
+            document.getElementById('massValue').textContent = this.value + ' kg';
+        });
+
+        document.getElementById('forceSlider').addEventListener('input', function() {
+            document.getElementById('forceValue').textContent = this.value + ' N';
+        });
+
+        // Cart Experiment Animation
+        let cartAnimationId;
+        let cartPosition = 50;
+        let cartVelocity = 0;
+        let fanStrength = 5;
+
+        function startCartExperiment() {
+            fanStrength = parseInt(document.getElementById('fanStrength').value);
+            cancelAnimationFrame(cartAnimationId);
+            cartPosition = 50;
+            cartVelocity = 0;
+            animateCart();
+        }
+
+        function animateCart() {
+            // Clear canvas
+            cartCtx.clearRect(0, 0, 500, 150);
+            
+            // Draw track
+            cartCtx.fillStyle = '#8B4513';
+            cartCtx.fillRect(0, 100, 500, 15);
+            
+            // Draw cart
+            cartCtx.fillStyle = '#FF6B6B';
+            cartCtx.fillRect(cartPosition, 70, 35, 30);
+            
+            // Draw wheels
+            cartCtx.fillStyle = '#333';
+            cartCtx.beginPath();
+            cartCtx.arc(cartPosition + 10, 100, 6, 0, Math.PI * 2);
+            cartCtx.arc(cartPosition + 25, 100, 6, 0, Math.PI * 2);
+            cartCtx.fill();
+            
+            // Apply force (fan effect)
+            if (fanStrength > 0) {
+                cartVelocity += fanStrength * 0.1;
+                // Air resistance
+                cartVelocity *= 0.98;
+            } else {
+                // Friction when no force
+                cartVelocity *= 0.95;
+            }
+            
+            cartPosition += cartVelocity;
+            
+            // Boundary check
+            if (cartPosition > 465) cartPosition = 465;
+            if (cartPosition < 0) cartPosition = 0;
+            
+            cartAnimationId = requestAnimationFrame(animateCart);
+        }
+
+        function resetCart() {
+            cancelAnimationFrame(cartAnimationId);
+            cartPosition = 50;
+            cartVelocity = 0;
+            drawStaticCart();
+        }
+
+        function drawStaticCart() {
+            cartCtx.clearRect(0, 0, 500, 150);
+            cartCtx.fillStyle = '#8B4513';
+            cartCtx.fillRect(0, 100, 500, 15);
+            cartCtx.fillStyle = '#FF6B6B';
+            cartCtx.fillRect(50, 70, 35, 30);
+            cartCtx.fillStyle = '#333';
+            cartCtx.beginPath();
+            cartCtx.arc(60, 100, 6, 0, Math.PI * 2);
+            cartCtx.arc(75, 100, 6, 0, Math.PI * 2);
+            cartCtx.fill();
+        }
+
+        // Spring Balance Experiment
+        function calculateAcceleration() {
+            const mass = parseInt(document.getElementById('massSlider').value);
+            const force = parseInt(document.getElementById('forceSlider').value);
+            const acceleration = force / mass;
+            
+            document.getElementById('accelerationResult').innerHTML = `
+                <strong>Results:</strong><br>
+                Force: ${force} N<br>
+                Mass: ${mass} kg<br>
+                Acceleration: ${acceleration.toFixed(2)} m/s²<br>
+                Formula used: F = ma → a = F/m
+            `;
+            
+            // Draw spring visualization
+            drawSpring(mass, force, acceleration);
+        }
+
+        function drawSpring(mass, force, acceleration) {
+            springCtx.clearRect(0, 0, 300, 250);
+            
+            // Ceiling
+            springCtx.fillStyle = '#666';
+            springCtx.fillRect(130, 0, 40, 15);
+            
+            // Spring coils
+            springCtx.strokeStyle = '#444';
+            springCtx.lineWidth = 2;
+            springCtx.beginPath();
+            let y = 15;
+            for (let i = 0; i < 8; i++) {
+                springCtx.lineTo(130, y);
+                springCtx.lineTo(170, y + 8);
+                springCtx.lineTo(130, y + 16);
+                y += 16;
+            }
+            springCtx.stroke();
+            
+            // Weight
+            springCtx.fillStyle = '#FF6B6B';
+            springCtx.fillRect(120, y, 60, 30);
+            
+            // Force arrow
+            if (force > 0) {
+                springCtx.strokeStyle = '#4CAF50';
+                springCtx.lineWidth = 2;
+                springCtx.beginPath();
+                springCtx.moveTo(150, y + 40);
+                springCtx.lineTo(150, y + 70);
+                springCtx.lineTo(140, y + 60);
+                springCtx.moveTo(150, y + 70);
+                springCtx.lineTo(160, y + 60);
+                springCtx.stroke();
+                springCtx.fillStyle = '#4CAF50';
+                springCtx.fillText(`F = ${force}N`, 160, y + 55);
+            }
+        }
+
+        // Initialize static drawings
+        drawStaticCart();
+        drawSpring(2, 10, 5);
+
+        // AI Chat System
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (!userInput.trim()) return;
+            
+            addMessage(userInput, 'user');
+            document.getElementById('userInput').value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(userInput);
+                addMessage(aiResponse, 'ai');
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function generateAIResponse(question) {
+            const responses = {
+                "first law": "Great! Newton's First Law says objects keep moving unless acted upon by a force. In your cart experiment, what happened when you stopped the fan?",
+                "second law": "Newton's Second Law: F = ma. When you increased the force in the spring experiment, what happened to acceleration?",
+                "third law": "For every action, there's an equal reaction. Think about walking - you push backward, ground pushes forward!",
+                "friction": "Friction opposes motion. Why do you think we oil machines? How could friction be both helpful and harmful?",
+                "gravity": "Gravity pulls everything down equally. Why do feathers fall slower than rocks? (Hint: air resistance)",
+                "momentum": "Momentum = mass × velocity. Why is it harder to stop a heavy truck than a bicycle, even at same speed?",
+                "default": "Interesting question! Instead of telling you directly, let me ask: What do you observe when you change the fan strength in the cart experiment? What patterns do you notice?"
+            };
+            
+            question = question.toLowerCase();
+            for (let key in responses) {
+                if (question.includes(key)) {
+                    return responses[key];
+                }
+            }
+            return responses.default;
+        }
+
+        // Innovation System
+        function submitInnovation() {
+            const idea = document.getElementById('innovationInput').value;
+            const type = document.getElementById('ideaType').value;
+            
+            if (!idea.trim()) {
+                alert('Please enter your idea!');
+                return;
+            }
+            
+            const innovation = {
+                id: innovations.length + 1,
+                idea: idea,
+                type: type,
+                timestamp: new Date().toLocaleString(),
+                points: calculateInnovationPoints(type)
+            };
+            
+            innovations.push(innovation);
+            totalPoints += innovation.points;
+            
+            updateScoreboard();
+            document.getElementById('innovationInput').value = '';
+            
+            // Show confirmation
+            addMessage(`✨ Great idea! You earned ${innovation.points} points for your ${type}!`, 'ai');
+        }
+
+        function calculateInnovationPoints(type) {
+            const points = {
+                'application': 4,
+                'question': 2,
+                'connection': 3,
+                'problem': 5
+            };
+            return points[type] || 2;
+        }
+
+        function updateScoreboard() {
+            document.getElementById('totalPoints').textContent = totalPoints;
+            const badges = assignBadges();
+            
+            const badgesDisplay = document.getElementById('badgesDisplay');
+            if (badges.length > 0) {
+                badgesDisplay.innerHTML = '';
+                badges.forEach(badge => {
+                    const badgeSpan = document.createElement('span');
+                    badgeSpan.className = 'badge';
+                    badgeSpan.textContent = badge;
+                    badgesDisplay.appendChild(badgeSpan);
+                });
+            } else {
+                badgesDisplay.innerHTML = '<span style="color: #666;">None yet - start earning!</span>';
+            }
+            
+            // Update innovation history
+            const historyDiv = document.getElementById('innovationHistory');
+            historyDiv.innerHTML = '';
+            innovations.slice(-3).reverse().forEach(idea => {
+                const ideaDiv = document.createElement('div');
+                ideaDiv.style.background = '#fff';
+                ideaDiv.style.padding = '8px';
+                ideaDiv.style.margin = '5px 0';
+                ideaDiv.style.borderRadius = '4px';
+                ideaDiv.style.fontSize = '0.9em';
+                ideaDiv.innerHTML = `
+                    <strong>${idea.type.toUpperCase()}:</strong> ${idea.idea}
+                    <div style="font-size: 0.8em; color: #666;">${idea.timestamp} (+${idea.points} pts)</div>
+                `;
+                historyDiv.appendChild(ideaDiv);
+            });
+        }
+
+        function assignBadges() {
+            const badges = [];
+            const ideaTypes = innovations.map(i => i.type);
+            
+            const questionCount = ideaTypes.filter(t => t === 'question').length;
+            const applicationCount = ideaTypes.filter(t => t === 'application').length;
+            const connectionCount = ideaTypes.filter(t => t === 'connection').length;
+            const problemCount = ideaTypes.filter(t => t === 'problem').length;
+            
+            if (questionCount >= 3) badges.push('Curiosity Catalyst');
+            if (applicationCount >= 2) badges.push('Solution Seeker');
+            if (connectionCount >= 2) badges.push('Pattern Pioneer');
+            if (problemCount >= 1) badges.push('Research Ranger');
+            if (totalPoints >= 15) badges.push('Innovation Master');
+            
+            return badges;
+        }
+
+        // Project Submission
+        function submitProject() {
+            const title = document.getElementById('projectTitle').value;
+            const type = document.getElementById('projectType').value;
+            const description = document.getElementById('projectDescription').value;
+            
+            if (!title || !description) {
+                alert('Please fill in title and description!');
+                return;
+            }
+            
+            const newProject = {
+                id: studentProjects.length + 1,
+                title: title,
+                creator: "You",
+                type: type,
+                description: description,
+                likes: 0,
+                comments: 0,
+                date: new Date().toLocaleDateString()
+            };
+            
+            studentProjects.unshift(newProject);
+            updateProjectsGallery();
+            
+            // Award innovation points
+            const points = type === 'app' ? 6 : type === 'device' ? 8 : 4;
+            addInnovationPoints(points, `Project: ${title}`);
+            
+            alert(`🎉 Project published! You earned ${points} innovation points!`);
+            document.getElementById('projectTitle').value = '';
+            document.getElementById('projectDescription').value = '';
+        }
+
+        function updateProjectsGallery() {
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '';
+            
+            studentProjects.slice(0, 3).forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                projectCard.innerHTML = `
+                    <h4>${getTypeIcon(project.type)} ${project.title}</h4>
+                    <p><strong>By:</strong> ${project.creator}</p>
+                    <p>${project.description}</p>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9em; color: #666;">
+                        <span>👍 ${project.likes} likes</span>
+                        <span>💬 ${project.comments} comments</span>
+                    </div>
+                `;
+                container.appendChild(projectCard);
+            });
+        }
+
+        function getTypeIcon(type) {
+            const icons = {
+                'app': '📱',
+                'device': '⚙️',
+                'art': '🎨',
+                'code': '💻',
+                'research': '🔬'
+            };
+            return icons[type] || '⭐';
+        }
+
+        function addInnovationPoints(points, reason) {
+            totalPoints += points;
+            updateScoreboard();
+        }
+
+        // Coding Learning Integration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup drag and drop
+            const blocks = document.querySelectorAll('.block');
+            const codeSequence = document.getElementById('codeSequence');
+            
+            blocks.forEach(block => {
+                block.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.getAttribute('data-code'));
+                });
+            });
+            
+            codeSequence.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            codeSequence.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const code = e.dataTransfer.getData('text/plain');
+                const blockText = Array.from(blocks).find(b => b.getAttribute('data-code') === code)?.textContent || code;
+                
+                if (this.innerHTML.includes('Drag code blocks here')) {
+                    this.innerHTML = '';
+                }
+                
+                const codeElement = document.createElement('div');
+                codeElement.innerHTML = `<span style="background: #4CAF50; color: white; padding: 5px; margin: 2px; display: inline-block; border-radius: 3px;">${blockText}</span>`;
+                this.appendChild(codeElement);
+                
+                // Store sequence for execution
+                if (!window.codeSequence) window.codeSequence = [];
+                window.codeSequence.push(code);
+            });
+        });
+
+        function runPhysicsSimulation() {
+            if (!window.codeSequence || window.codeSequence.length === 0) {
+                alert('Please add some code blocks first!');
+                return;
+            }
+            
+            alert('Running your physics simulation!\n\nCode executed:\n' + window.codeSequence.join('\n'));
+            
+            // Simple animation based on code sequence
+            const canvas = document.getElementById('physicsCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw simple animation
+            let x = 50;
+            let y = 100;
+            
+            // Animate based on code sequence
+            const interval = setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw ball
+                ctx.beginPath();
+                ctx.arc(x, y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = '#FF6B6B';
+                ctx.fill();
+                
+                // Move based on applied force
+                if (window.codeSequence.includes('applyForce(10)')) {
+                    x += 3;
+                }
+                
+                // Bounce walls
+                if (x > canvas.width - 15) {
+                    x = 50; // Reset position
+                }
+                
+                // Stop after some iterations
+                if (x > canvas.width + 50) {
+                    clearInterval(interval);
+                }
+            }, 50);
+            
+            addInnovationPoints(5, 'Created physics simulation');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProjectsGallery();
+        });
+    </script>
+</body>
+</html>

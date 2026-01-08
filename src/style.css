@@ -1,0 +1,266 @@
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #ecf0f1;
+}
+
+.subtitle {
+  color: #bdc3c7;
+  font-size: 1.1em;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+h3 {
+  color: #34495e;
+  margin: 15px 0 10px 0;
+}
+
+.experiment {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+}
+
+.controls {
+  margin: 15px 0;
+  padding: 10px;
+  background: #e3f2fd;
+  border-radius: 5px;
+}
+
+.slider-container {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold;
+}
+
+input[type="range"] {
+  width: 200px;
+  margin: 0 10px;
+}
+
+button {
+  background: linear-gradient(45deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.chat-container {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 80%;
+}
+
+.user-message {
+  background: #dcf8c6;
+  margin-left: auto;
+  text-align: right;
+}
+
+.ai-message {
+  background: #e3f2fd;
+  margin-right: auto;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+
+#userInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.innovation-panel {
+  background: linear-gradient(135deg, #fff9c4, #ffd54f);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.scoreboard {
+  background: linear-gradient(135deg, #c8e6c9, #81c784);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.community-showcase {
+  background: linear-gradient(135deg, #bbdefb, #64b5f6);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+textarea, input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.project-card {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.coding-lab {
+  background: linear-gradient(135deg, #e0f7fa, #80deea);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.block {
+  background: linear-gradient(45deg, #4CAF50, #2E7D32);
+  color: white;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: grab;
+  display: inline-block;
+  user-select: none;
+}
+
+#codeSequence {
+  background: white;
+  min-height: 100px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 2px dashed #3498db;
+  margin: 15px 0;
+}
+
+canvas {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: white;
+  display: block;
+  margin: 10px 0;
+}
+
+.points-display {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #e74c3c;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.badges-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.badge {
+  background: linear-gradient(45deg, #ff9800, #f57c00);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
